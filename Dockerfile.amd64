@@ -101,7 +101,24 @@ RUN cd /src/web \
     && yarn build
 RUN sed -i 's#app/locale/#novnc/app/locale/#' /src/web/dist/static/novnc/app/ui.js
 
+################################################################################
+# Toolcahin
+################################################################################
+RUN apt update \
+    && apt-get install -y openssh-server autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential \
+                    git bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev \
+    && apt-get autoclean -y \
+    && apt-get autoremove -y
+    
 
+## Works with 13ed647 commit
+RUN cd /src/ \
+    && git clone --recursive https://github.com/riscv/riscv-gnu-toolchain.git \
+    && cd riscv-gnu-toolchain \
+    && mkdir build \
+    && cd build \
+    && ../configure --with-arch=rv32ima --with-abi=ilp32 \
+    && make
 
 ################################################################################
 # merge
