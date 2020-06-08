@@ -47,15 +47,6 @@ RUN apt update \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
     
-RUN apt update \
-    && apt autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential \
-                    bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev
-    && apt autoclean -y \
-    && apt autoremove -y \
-    && rm -rf /var/lib/apt/lists/*
-    
-
-
 
 # Additional packages require ~600MB
 # libreoffice  pinta language-pack-zh-hant language-pack-gnome-zh-hant firefox-locale-zh-hant libreoffice-l10n-zh-tw
@@ -88,6 +79,8 @@ RUN apt-get update \
     && rm -rf /var/cache/apt/* /tmp/a.txt /tmp/b.txt
 
 
+
+
 ################################################################################
 # builder
 ################################################################################
@@ -117,6 +110,25 @@ RUN cd /src/web \
     && yarn build
 RUN sed -i 's#app/locale/#novnc/app/locale/#' /src/web/dist/static/novnc/app/ui.js
 
+
+################################################################################
+# Toolcahin
+################################################################################
+RUN apt update \
+    && apt autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential \
+                    bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev
+    && apt autoclean -y \
+    && apt autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+
+## Works with 13ed647 commit
+RUN cd /src/ \
+    && git clone --recursive https://github.com/riscv/riscv-gnu-toolchain.git \
+    && cd riscv-gnu-toolchain \
+    && mkdir build \
+    && cd build \
+    && ../configure --with-arch=rv32ima --with-abi=ilp32 \
+    && make
 
 
 ################################################################################
