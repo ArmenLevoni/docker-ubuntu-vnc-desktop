@@ -46,6 +46,15 @@ RUN apt update \
     && apt autoclean -y \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
+    
+RUN apt update \
+    && apt autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential \
+                    bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev
+    && apt autoclean -y \
+    && apt autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+    
+
 
 
 # Additional packages require ~600MB
