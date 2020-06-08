@@ -68,7 +68,7 @@ RUN apt update \
 COPY rootfs/usr/local/lib/web/backend/requirements.txt /tmp/
 RUN apt-get update \
     && dpkg-query -W -f='${Package}\n' > /tmp/a.txt \
-    && apt-get install -y python3-pip python3-dev build-essential \
+    && apt-get install -y python3-pip python3-dev build-essential python-pkg-resources\
 	&& pip3 install setuptools wheel && pip3 install -r /tmp/requirements.txt \
     && ln -s /usr/bin/python3 /usr/local/bin/python \
     && dpkg-query -W -f='${Package}\n' > /tmp/b.txt \
@@ -122,13 +122,13 @@ RUN apt update \
     
 
 ## Works with 13ed647 commit
-RUN cd /src/ \
-    && git clone --recursive https://github.com/riscv/riscv-gnu-toolchain.git \
-    && cd riscv-gnu-toolchain \
-    && mkdir build \
-    && cd build \
-    && ../configure --with-arch=rv32ima --with-abi=ilp32 \
-    && make
+#RUN cd /src/ \
+#    && git clone --recursive https://github.com/riscv/riscv-gnu-toolchain.git \
+#    && cd riscv-gnu-toolchain \
+#    && mkdir build \
+#    && cd build \
+#    && ../configure --with-arch=rv32ima --with-abi=ilp32 \
+#    && make
 
 
 ################################################################################
