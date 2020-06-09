@@ -112,7 +112,8 @@ RUN apt update \
     
 
 ## Works with 13ed647 commit
-RUN cd /src/ \
+RUN mkdir /tools \
+    && cd /tools \
     && git clone --recursive https://github.com/riscv/riscv-gnu-toolchain.git \
     && cd riscv-gnu-toolchain \
     && mkdir build \
